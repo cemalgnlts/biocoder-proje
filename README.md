@@ -14,7 +14,7 @@ CREATE DATABASE IF NOT EXISTS biocoder;
 
 use biocoder;
 
-CREATE TABLE users (
+CREATE TABLE IF NOT EXISTS users (
   id CHAR(11) UNIQUE NOT NULL,
   name VARCHAR(100) NOT NULL,
   email VARCHAR(150) NOT NULL,
@@ -22,7 +22,7 @@ CREATE TABLE users (
   PRIMARY KEY( id )
 );
 
-CREATE TABLE products (
+CREATE TABLE IF NOT EXISTS products (
   id INT AUTO_INCREMENT NOT NULL,
   date DATE NOT NULL DEFAULT now(),
   userId CHAR(11) NOT NULL,
@@ -46,7 +46,7 @@ CREATE TABLE products (
 
 -- Isı, nem ve ağırlık için tablolar.
 
-CREATE TABLE heat (
+CREATE TABLE IF NOT EXISTS heat (
   id INT NOT NULL AUTO_INCREMENT,
   date DATE NOT NULL DEFAULT now(),
   productId INT NOT NULL,
@@ -56,7 +56,7 @@ CREATE TABLE heat (
   FOREIGN KEY ( productId ) REFERENCES products( id ) ON DELETE CASCADE
 );
 
-CREATE TABLE moisture (
+CREATE TABLE IF NOT EXISTS moisture (
   id INT NOT NULL AUTO_INCREMENT,
   date DATE NOT NULL DEFAULT now(),
   productId INT NOT NULL,
@@ -66,7 +66,7 @@ CREATE TABLE moisture (
   FOREIGN KEY ( productId ) REFERENCES products( id ) ON DELETE CASCADE
 );
 
-CREATE TABLE weight (
+CREATE TABLE IF NOT EXISTS weight (
   id INT NOT NULL AUTO_INCREMENT,
   productId INT NOT NULL,
   date DATE NOT NULL,
@@ -74,6 +74,12 @@ CREATE TABLE weight (
   PRIMARY KEY ( id ),
   FOREIGN KEY ( productId ) REFERENCES products( id ) ON DELETE CASCADE
 );
+```
+
+NOT: Eğer veritabanı tablo için varsayılan zamanı girmiyorsa şöyle düzeltilmeli:
+```diff
+- date DATE NOT NULL DEFAULT now(),
++ date DATE NOT NULL DEFAULT "2022-06-11",
 ```
 
 Veritabanı için gerekli bilgiler [`.env`](.env) dosyasına girilmeli.
