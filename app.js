@@ -53,4 +53,4 @@ app.use("/", isNotAuthorized, routeLogin);
 // app.use("/", isAuthorized, (req, res) => res.redirect("/dashboard"));
 app.use("*", (req, res) => res.send("404"));
 
-app.listen(3000, () => console.log("App listening on http://localhost:3000"));
+app.listen(process.env.PORT || 3000, () => console.log(`App listening on http://localhost:${process.env.PORT || 3000}`));
