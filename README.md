@@ -99,4 +99,5 @@ MYSQL_DATABASE=biocoder # İşlemlerin yapılacağı veritabanı.
 2. Konsola `npm start` yazarak sunucu başlatılmalı.
 
 
-> Not: Ürün ekleme işlemini hızlandırmak için geliştirici konsolunu açıp `fillFakeData()` yazılıp çalıştırılırsa otomatik olarak bir ürün girer ve kaydeder. Bunun için ana ekranda olmalısınız ve formda ilerleme kaydetmemiş olmanız gerekir.
+> Not: Ürün ekleme işlemini hızlandırmak için geliştirici konsolunu açıp `fillFakeData()` yazılıp çalıştırılırsa otomatik olarak bir ürün girer ve kaydeder. Bunun için dashboard sayfasında olmalısınız ve formda ilerleme kaydetmemiş (Bir Ürün Ekleyin.
+ adımında) olmanız gerekir.
