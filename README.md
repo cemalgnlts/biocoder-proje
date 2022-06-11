@@ -76,7 +76,8 @@ CREATE TABLE IF NOT EXISTS weight (
 );
 ```
 
-NOT: Eğer veritabanı mysql versiyonuna bağlı olarak `now()` fonksiyonunu tanımaz ise tüm alanlar şöyle düzeltilmeli:
+
+**NOT**: Eğer veritabanı mysql versiyonuna bağlı olarak `now()` fonksiyonunu tanımaz ve tabloları oluşturmaz ise tüm alanlar şöyle düzeltilmeli:
 ```diff
 - date DATE NOT NULL DEFAULT now(),
 + date DATE NOT NULL DEFAULT "2022-06-11",
@@ -96,3 +97,6 @@ MYSQL_DATABASE=biocoder # İşlemlerin yapılacağı veritabanı.
 
 1. Gerekli paketleri kurun `npm install`.
 2. Konsola `npm start` yazarak sunucu başlatılmalı.
+
+
+> Not: Ürün ekleme işlemini hızlandırmak için geliştirici konsolunu açıp `fillFakeData()` yazılıp çalıştırılırsa otomatik olarak bir ürün girer ve kaydeder. Bunun için ana ekranda olmalısınız ve formda ilerleme kaydetmemiş olmanız gerekir.
