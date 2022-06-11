@@ -4,7 +4,7 @@
 
 https://biocoder-proje.herokuapp.com/dashboard
 
-Proje Heroku üzerinde deploy edilmiştir. Ücretsiz bir servis olduğu için 30 dakika kullanılmadığında bir sonraki sayfaya giriş 1 dakika kadar sürebilir. Veritabanı için https://remotemysql.com sayfasından ücretsiz bir hesap alınmıştır.
+Proje Heroku üzerinde deploy edilmiştir. Ücretsiz bir servis olduğu için 30 dakika kullanılmadığında bir sonraki sayfaya giriş 1 dakikaya kadar sürebilir. Veritabanı için https://remotemysql.com sayfasından ücretsiz bir hesap alınmıştır.
 
 ## Veritabanı
 
@@ -76,7 +76,7 @@ CREATE TABLE IF NOT EXISTS weight (
 );
 ```
 
-NOT: Eğer veritabanı tablo için varsayılan zamanı girmiyorsa şöyle düzeltilmeli:
+NOT: Eğer veritabanı mysql versiyonuna bağlı olarak `now()` fonksiyonunu tanımaz ise tüm alanlar şöyle düzeltilmeli:
 ```diff
 - date DATE NOT NULL DEFAULT now(),
 + date DATE NOT NULL DEFAULT "2022-06-11",
@@ -94,4 +94,5 @@ MYSQL_DATABASE=biocoder # İşlemlerin yapılacağı veritabanı.
 
 ## Node'un Çalıştırılması.
 
-Konsola `npm start` yazarak sunucu başlatılmalı.
+1. Gerekli paketleri kurun `npm install`.
+2. Konsola `npm start` yazarak sunucu başlatılmalı.

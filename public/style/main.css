@@ -3,6 +3,7 @@ html {
 }
 
 body {
+  overflow-x: hidden;
   min-height: 100%;
 }
 
@@ -118,6 +119,11 @@ form.step-by-step {
   display: block;
 }
 
+.msg-success,
+.msg-danger {
+  display: none;
+}
+
 @media screen and (min-width: 1024px) {
   #aside {
     display: block;
@@ -133,11 +139,17 @@ form.step-by-step {
 
 @media screen and (max-width: 425px) {
   .form-group {
-    padding: 0;
+    padding: 0 0.2rem;
   }
 
   .container.is-fluid {
     padding-left: 16px;
     padding-right: 16px;
+  }
+}
+
+@media screen and (max-height: 600px) {
+  .mt-1-max-600 {
+    margin-top: 1rem;
   }
 }

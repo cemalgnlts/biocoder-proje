@@ -51,87 +51,6 @@ function initTabs() {
     document.querySelectorAll("form").forEach(form => form.onchange = (ev) => productDataUpdated(form, ev));
 }
 
-function productDataUpdated(form, ev) {
-    const input = ev.target;
-
-    const name = form.name === "info" ? input.name : input.id.split("-")[1];
-
-    updatedProductFormData[form.name].set(name, input.value);
-}
-
-function updateProduct(type) {
-    if (type === "info") {
-        // Ürün ekleme sayfası adımlı olduğu için burada hata almadıkça adımları arttır.
-        formStep = 1;
-        if (!productFormControl()) return;
-        formStep = 2;
-        if (!productFormControl()) return;
-        formStep = 6;
-        if (!productFormControl()) return;
-
-        clearFormMessages();
-    }
-
-    document.querySelector("#save-btn-" + type).classList.add("is-loading");
-    document.querySelector("#deleteProduct").classList.add("is-loading");
-
-    fetch(`/dashboard/products/${type}/${productId}`, {
-        method: "PATCH",
-        body: new URLSearchParams(updatedProductFormData[type]),
-    }).then(res => res.json())
-        .then(onProductUpdated)
-        .catch(console.error);
-}
-
-function onProductUpdated(res) {
-    document.querySelector("[id^=save-btn].is-loading").classList.remove("is-loading");
-    document.querySelector("#deleteProduct").classList.remove("is-loading");
-
-    const info = document.querySelector(".product-updated-notification");
-    info.classList.remove("is-info", "is-danger");
-    info.style.display = "block";
-    const title = info.querySelector(".is-text");
-    info.scrollIntoView({ block: "start", behavior: "smooth" });
-
-    if (!res.ok) {
-        info.classList.add("is-danger");
-        title.textContent = res.message;
-        return;
-    }
-
-    updatedProductFormData[res.type] = new FormData();
-    info.classList.add("is-success");
-    title.textContent = "Ürün Güncellendi.";
-}
-
-function deleteProduct() {
-    if (confirm("Bu işlem geri alınamaz!\nSilmek istediğinizden emin misiniz?")) {
-        const delBtn = document.querySelector("#deleteProduct");
-        delBtn.classList.add("is-loading");
-        delBtn.previousElementSibling.classList.add("is-loading");
-
-        fetch("/dashboard/" + productId, {
-            method: "DELETE"
-        }).then(res => res.json())
-            .then(onDeleteProduct)
-            .catch(console.error);
-    }
-}
-
-function onDeleteProduct(res) {
-    const delBtn = document.querySelector("#deleteProduct");
-    delBtn.classList.remove("is-loading");
-    delBtn.previousElementSibling.classList.remove("is-loading");
-
-    if (!res.ok) {
-        console.error(res.message);
-        alert(res.message);
-        return;
-    }
-
-    window.location.href = "/dashboard/products";
-}
-
 function onGPSResult(pos) {
     const lat = pos.coords.latitude;
     const lon = pos.coords.longitude;
@@ -301,18 +220,108 @@ function onProductAdded(res) {
     formStepBtnNext.classList.replace("is-success", "is-info");
     formStepBtnNext.onclick = () => goToForm(1);
 
+    document.querySelector(".product-notification").classList.remove("is-info", "is-danger", "is-success");
+    document.querySelectorAll(".msg-info, .msg-success, .msg-danger")
+        .forEach(el => el.style.display = "none");
+    
+    let status = "success";
+
+    if (!res.ok) {
+        status = "danger";
+        console.error(res.message);
+
+        document.querySelector(".msg-danger p").textContent = res.message;
+        return;
+    }
+
+    document.querySelector(".product-notification").classList.add("is-" + status);
+    document.querySelector(".msg-" + status).style.display = "block";
+
+    form.reset();
+}
+
+function productDataUpdated(form, ev) {
+    const input = ev.target;
+
+    const name = form.name === "info" ? input.name : input.id.split("-")[1];
+
+    updatedProductFormData[form.name].set(name, input.value);
+}
+
+function updateProduct(type) {
+    if (type === "info") {
+        // Ürün ekleme sayfası adımlı olduğu için burada hata almadıkça adımları arttır.
+        formStep = 1;
+        if (!productFormControl()) return;
+        formStep = 2;
+        if (!productFormControl()) return;
+        formStep = 6;
+        if (!productFormControl()) return;
+
+        clearFormMessages();
+    }
+
+    document.querySelector("#save-btn-" + type).classList.add("is-loading");
+    document.querySelector("#deleteProduct").classList.add("is-loading");
+
+    fetch(`/dashboard/products/${type}/${productId}`, {
+        method: "PATCH",
+        body: new URLSearchParams(updatedProductFormData[type]),
+    }).then(res => res.json())
+        .then(onProductUpdated)
+        .catch(console.error);
+}
+
+function onProductUpdated(res) {
+    document.querySelector("[id^=save-btn].is-loading").classList.remove("is-loading");
+    document.querySelector("#deleteProduct").classList.remove("is-loading");
+
+    const info = document.querySelector(".product-updated-notification");
+    info.classList.remove("is-info", "is-danger");
+    info.style.display = "block";
+    const title = info.querySelector(".is-text");
+    info.scrollIntoView({ block: "start", behavior: "smooth" });
+
+    if (!res.ok) {
+        info.classList.add("is-danger");
+        title.textContent = res.message;
+        return;
+    }
+
+    updatedProductFormData[res.type] = new FormData();
+    info.classList.add("is-success");
+    title.textContent = "Ürün Güncellendi.";
+}
+
+function deleteProduct() {
+    if (confirm("Bu işlem geri alınamaz!\nSilmek istediğinizden emin misiniz?")) {
+        const delBtn = document.querySelector("#deleteProduct");
+        delBtn.classList.add("is-loading");
+        delBtn.previousElementSibling.classList.add("is-loading");
+
+        fetch("/dashboard/" + productId, {
+            method: "DELETE"
+        }).then(res => res.json())
+            .then(onDeleteProduct)
+            .catch(console.error);
+    }
+}
+
+function onDeleteProduct(res) {
+    const delBtn = document.querySelector("#deleteProduct");
+    delBtn.classList.remove("is-loading");
+    delBtn.previousElementSibling.classList.remove("is-loading");
+
     if (!res.ok) {
         console.error(res.message);
         alert(res.message);
         return;
     }
 
-    form.reset();
+    window.location.href = "/dashboard/products";
 }
 
-// İkinci adımdaki ağırlık, nem, ısı için kontrolü geçmek için.
-// noStep true değeri almalı.
-function productFormControl(noStep) {
+function productFormControl() {
     const formValidator = new FormValidator(form);
 
     if (formStep === 1) {
