@@ -1,0 +1,107 @@
+{% macro verticalInput(id, label, placeholder, type = "text", isReadOnly = false, addons = false, value = false) %}
+  {% if addons %}
+    <label for="{{ id }}" class="label">{{ label }}</label>
+  {% endif %}
+  <div class="field{% if addons %} has-addons{% endif %}">
+    {% if not addons %}
+      <label for="{{ id }}" class="label">{{ label }}</label>
+    {% endif %}
+    <div class="control">
+      <input
+        type="{{ type }}"
+        placeholder="{{ placeholder }}"
+        class="input"
+        id="{{ id }}"
+        name="{{ id }}"
+        {% if value %} value="{{ value }}"{% endif %}
+        {% if isReadOnly %} readonly{% endif %}/>
+    </div>
+    {% if addons %}
+      <div class="control">
+        <div class="button is-static">
+          {{ addons }}
+        </div>
+      </div>
+    {% endif %}
+  </div>
+{% endmacro %}
+
+{% macro verticalTextArea(id, label, placeholder, value) %}
+  <div class="field">
+    <label for="{{ id }}" class="label">{{ label }}</label>
+    <div class="control">
+      <textarea
+        type="text"
+        class="textarea"
+        id="{{ id }}"
+        name="{{ id }}"
+        {% if value %} value="{{ value }}"{% endif %}>
+        {%- if value -%}
+          {{ value }}
+        {%- endif -%}
+      </textarea>
+    </div>
+  </div>
+{% endmacro %}
+
+{% macro verticalInputSelect(id, label, items, value) %}
+  <div class="field">
+    <label for="{{ id }}" class="label">{{ label }}</label>
+    <div class="control">
+      <div class="select">
+        <select name="{{ id }}" id="{{ id }}"{% if value %} value="{{ value }}"{% endif %}>
+          {% for item in items %}
+            <option value="{{ item }}"{%if item === value%} selected{%endif%}>{{ item }}</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+  </div>
+{% endmacro %}
+
+{% macro field(id, label, placeholder, type = "text", required = false, autofocus = false, value = false) %}
+  <div class="field">
+    <label for="{{ id }}" class="label">{{ label }}</label>
+    <div class="control">
+      <input
+        type="{{ type }}"
+        placeholder="{{ placeholder }}"
+        class="input"
+        id="{{ id }}"
+        name="{{ id }}"
+        {% if value -%} value="{{ value }}"{% endif %}
+        {% if required -%} required{% endif %}
+        {% if autofocus -%} autofocus{% endif %}/>
+    </div>
+  </div>
+{% endmacro %}
+
+{% macro inputWithDate(name, label, addonText, valueDate = false, value = false, isArray = false, isRequired = false, id = false) %}
+  {% if label %}
+    <label for="{{ name }}" class="label">{{label}}</label>
+  {% endif %}
+  <div class="field has-addons">
+    <div class="control">
+      <div
+        class="button is-static"
+        name="{{ name }}Date"
+        type="text">{{ valueDate }}</div>
+    </div>
+
+    <div class="control">
+      <input
+        type="number"
+        placeholder="{{ placeholder }}"
+        class="input"
+        {% if id %} id="{{ name }}-{{ id }}"{% endif %}
+        {% if value %} value="{{ value }}"{% endif %}
+        {% if isRequired %} required{% endif %}
+        step="any"
+        name="{{ name }}{%if isArray%}[]{%endif%}"/>
+    </div>
+
+    <div class="control">
+      <div class="button is-static">{{ addonText }}</div>
+    </div>
+  </div>
+{% endmacro %}

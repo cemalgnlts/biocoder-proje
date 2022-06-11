@@ -1,0 +1,10 @@
+{% extends "authorize.njk" %}
+
+{% from "partials/macros.njk" import field %}
+
+{% block forms %}
+
+  {{ field("id", "Kullanıcı Adı", "T.C. Kimik Numaranız", required=true, autofocus=true, value="33333333334") }}
+  {{ field("password", "Şifre", "********", "password", required=true, value="12345678aA") }}
+
+{% endblock %}

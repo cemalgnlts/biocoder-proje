@@ -1,0 +1,115 @@
+{% extends "base.njk" %}
+
+{% from "partials/macros.njk" import verticalInput,
+verticalTextArea,
+verticalInputSelect,
+inputWithDate %}
+
+{% set iller = ililce | keys | concat("İl Seçin") %}
+{% set productItemTypes = productTypes | concat("Ürün Cinsini Seçin") %}
+
+{% block main %}
+  <div class="container is-fluid">
+    <div class="columns mb-0 is-relative">
+      <div class="column is-aside is-2-desktop">
+        {% include "partials/aside.njk" %}
+      </div>
+      <div class="column mb-4 is-10">
+        <h1 class="is-size-3 is-size-4-mobile mb-4">Ürün Detay</h1>
+        <div class="content">
+          {% if product === undefined %}
+            <div class="notification is-warning">
+              <h4 class="is-title is-size-4 gps-info">Ürün Bulunamadı!</h4>
+              <small class="is-small">Böyle bir ürün yok veya ürünün sahibi değilsiniz.</small>
+            </div>
+          {% else %}
+            <div class="tabs is-left">
+              <ul class="ml-0">
+                <li class="is-active">
+                  <a href="javascript:void(0)" data-target="info">Genel</a>
+                </li>
+                <li>
+                  <a href="javascript:void(0)" data-target="heat">Isı</a>
+                </li>
+                <li>
+                  <a href="javascript:void(0)" data-target="moisture">Nem</a>
+                </li>
+                <li>
+                  <a href="javascript:void(0)" data-target="weight">Ağılık</a>
+                </li>
+              </ul>
+            </div>
+
+            <div class="container is-relative box is-clearfix">
+              <div class="notification product-updated-notification">
+                <p class="is-text has-text-white"></p>
+              </div>
+
+              <div id="info" class="tab-target active">
+                <form onsubmit="return false;" name="info">
+                  <h4 class="subtitle is-4 mb-4">İşletme</h4>
+                  {{ verticalInput("businessNo", "İşletme No", "14 KA", value=product.businessNo) }}
+                  {{ verticalTextArea("address", "Adres", value=product.address) }}
+                  {{ verticalInputSelect("il", "İl", iller, value=product.il) }}
+                  {{ verticalInputSelect("ilce", "İlçe", ililce[product.il], value=product.ilce) }}
+                  {{ verticalInput("location", "Konum", "Konum izni verilince otomatik olarak doldurulacak", isReadOnly=true, value=product.latitude + "," + product.longitude) }}
+                  {{ verticalInput("weather", "Hava Durumu", "Konum izni verilince otomatik olarak doldurulacak", isReadOnly=true, value=product.weather) }}
+
+                  <h4 class="subtitle is-4 mb-4 mt-6">Ürün</h4>
+                  {{ verticalInputSelect("productType", "Ürün Cinsi", productItemTypes, value=product.productType) }}
+                  {{ verticalInput("productQuantity", "Toplam Ürün Adedi", "0", "number", value=product.productQuantity) }}
+                  {{ verticalInput("robustProductQuantity", "Sağlam Ürün Adedi", "0", "number", value=product.robustProductQuantity) }}
+                  {{ verticalInput("brokenProductQuantity", "Kırık Ürün Adedi", "0", "number", value=product.brokenProductQuantity) }}
+                  {{ verticalInput("emptyProductQuantity", "Boş Ürün Adedi", "Otomatik doldurulur", "number", isReadOnly=true, value=product.emptyProductQuantity) }}
+
+                  <h4 class="subtitle is-4 mb-4 mt-6">Verimlilik</h4>
+                  {{ verticalInput("productSize2020", "2020", "2020 Yılı alınan verim", "number", addons="kg", value=product.productSize2020) }}
+                  {{ verticalInput("productSize2021", "2021", "2021 Yılı alınan verim", "number", addons="kg", value=product.productSize2021) }}
+                  {{ verticalInput("productSize2022", "2022", "2022 Yılı alınan verim", "number", addons="kg", value=product.productSize2022) }}
+                </form>
+                <button class="button is-info mt-6 save-changes" onclick="updateProduct('info')" id="save-btn-info">Değişiklikleri Kaydet</button>
+                <button class="button is-danger is-light is-pulled-right mt-6" onclick="deleteProduct()" id="deleteProduct">Bu Ürünü Sil</button>
+              </div>
+              <div id="heat" class="tab-target">
+                <form onsubmit="return false;" name="heat">
+                  <h4 class="subtitle is-4 mb-4">Isı</h4>
+                  {% for heat in heat %}
+                    {{ inputWithDate("heat", "", "°C", valueDate=heat.time | toLocaleTime, value=heat.value, isArray=true, id=heat.id) }}
+                  {% endfor %}
+                </form>
+                <button class="button is-info mt-6 save-changes" onclick="updateProduct('heat')" id="save-btn-heat">Isı Değişikliklerini Kaydet</button>
+              </div>
+              <div id="moisture" class="tab-target">
+                <form onsubmit="return false;" name="moisture">
+                  <h4 class="subtitle is-4 mb-4">Nem</h4>
+                  {% for moisture in moisture %}
+                    {{ inputWithDate("moisture", "", "°C", valueDate=moisture.time | toLocaleTime, value=moisture.value, isArray=true, id=moisture.id) }}
+                  {% endfor %}
+                </form>
+                <button class="button is-info mt-6 save-changes" onclick="updateProduct('moisture')" id="save-btn-moisture">Nem Değişikliklerini Kaydet</button>
+              </div>
+              <div id="weight" class="tab-target">
+                <form onsubmit="return false;" name="weight">
+                  <h4 class="subtitle is-4 mb-4">Ağırlık</h4>
+                  {% for weight in weight %}
+                    {{ inputWithDate("weight", "", "kg", valueDate=weight.date | toLocaleDate, value=weight.value, isArray=true, id=weight.id) }}
+                  {% endfor %}
+                </form>
+                <button class="button is-info mt-6 save-changes" onclick="updateProduct('weight')" id="save-btn-weight">Ağırlık Değişikliklerini Kaydet</button>
+              </div>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block footer %}
+  <script>
+    const ililce = {{ ililce | dump | safe }};
+    const productId = "{{ product.id | safe }}";
+    initForms();
+    initTabs();
+  </script>
+{% endblock %}

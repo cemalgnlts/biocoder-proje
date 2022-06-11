@@ -1,0 +1,83 @@
+{% from "partials/macros.njk" import verticalInput,
+verticalTextArea,
+verticalInputSelect,
+inputWithDate %}
+
+{% set iller = ililce | keys | concat("İl Seçin") %}
+{% set productItemTypes = productTypes | concat("Ürün Cinsini Seçin") %}
+
+<div class="card">
+  <header class="card-header">
+    <p class="card-header-title">Ürün Ekle</p>
+  </header>
+  <div class="card-content is-relative">
+    <progress class="progress progress-indicator is-success is-small" value="0" max="100">0%</progress>
+    <form action="/" method="post" class="step-by-step">
+      <div class="form-group">
+        <h4 class="subtitle is-4 mb-3">Ürün Ekle</h4>
+      </div>
+
+      <div class="form-group">
+        <h4 class="subtitle is-4 mb-4">İşletme</h4>
+
+        {{ verticalInput("businessNo", "İşletme No", "14 KA") }}
+        {{ verticalTextArea("address", "Adres") }}
+        {{ verticalInputSelect("il", "İl", iller) }}
+        {{ verticalInputSelect("ilce", "İlçe", ["Önce il seçin"]) }}
+        {{ verticalInput("location", "Konum", "Konum izni verilince otomatik olarak doldurulacak", isReadOnly=true) }}
+        {{ verticalInput("weather", "Hava Durumu", "Konum izni verilince otomatik olarak doldurulacak", isReadOnly=true) }}
+      </div>
+
+      <div class="form-group">
+        <h4 class="subtitle is-4 mb-4 mt-4">Ürün</h4>
+
+        {{ verticalInputSelect("productType", "Ürün Cinsi", productItemTypes) }}
+        {{ verticalInput("productQuantity", "Toplam Ürün Adedi", "0", "number") }}
+        {{ verticalInput("robustProductQuantity", "Sağlam Ürün Adedi", "0", "number", value="0") }}
+        {{ verticalInput("brokenProductQuantity", "Kırık Ürün Adedi", "0", "number", value="0") }}
+        {{ verticalInput("emptyProductQuantity", "Boş Ürün Adedi", "Otomatik doldurulur", "number", isReadOnly=true, value="0") }}
+      </div>
+
+      <div class="form-group">
+        <h4 class="subtitle is-4 mb-4">Isı</h4>
+
+        {% for i in range(12, 24) %}
+          {{ inputWithDate("heat", "", "°C", valueDate=i+":00", isArray=true) }}
+        {% endfor %}
+      </div>
+
+      <div class="form-group">
+        <h4 class="subtitle is-4 mb-4">Nem</h4>
+
+        {% for i in range(12, 24) %}
+          {{ inputWithDate("moisture", "", "°C", valueDate=i+":00", isArray=true) }}
+        {% endfor %}
+      </div>
+
+      <div class="form-group">
+        <h4 class="subtitle is-4 mb-4">Ağırlık</h4>
+
+        {% for i in range(7) %}
+          {{ inputWithDate("weight", "", "kg", isRequired=true, isArray=true) }}
+        {% endfor %}
+      </div>
+
+      <div class="form-group">
+        <h4 class="subtitle is-4 mb-4">Verimlilik</h4>
+
+        {{ verticalInput("productSize2020", "2020", "2020 Yılı alınan verim", "number", value="0", addons="kg") }}
+        {{ verticalInput("productSize2021", "2021", "2021 Yılı alınan verim", "number", value="0", addons="kg") }}
+        {{ verticalInput("productSize2022", "2022", "2022 Yılı alınan verim", "number", value="0", addons="kg") }}
+      </div>
+
+    </form>
+    <div class="field is-grouped is-grouped-right">
+      <div class="control">
+        <button class="button is-light form-step-prev" disabled>Önceki</button>
+      </div>
+      <div class="control">
+        <button class="button is-info form-step-next">Devam Et</button>
+      </div>
+    </div>
+  </div>
+</div>

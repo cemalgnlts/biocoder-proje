@@ -1,0 +1,49 @@
+{% extends "base.njk" %}
+
+{% macro input(id, type, label, placeholder) %}
+  <div class="field">
+    <label for="{{ id }}">{{ label }}</label>
+    <div class="control">
+      <input{% if formData and formData[id] %} value="{{formData[id]}}"{% endif %}
+        type="{{ type }}"
+        placeholder="{{ placeholder }}"
+        class="input"
+        id="{{ id }}"
+        name="{{ id }}"/>
+    </div>
+  </div>
+{% endmacro %}
+
+{% block main %}
+  <div class="columns is-flex-grow-1 is-mobile mb-0">
+    <div class="column my-auto">
+      <div class="columns is-justify-content-center">
+        <div class="column mx-auto is-10-mobile is-9-desktop is-6-fullhd">
+          <form action="/{% if action === "register" %}register{% endif %}" method="post" class="box" onsubmit="return {{ action }}FormControl()">
+            <h1 class="title has-text-centered">{{ formTitle }}</h1>
+
+            {% block forms %}{% endblock %}
+
+            {% if error %}
+              <div class="notification is-danger is-light">
+                {{ error }}
+              </div>
+            {% endif %}
+
+            <button class="button is-primary">{{ formSubmitText }}</button>
+
+            <p class="mt-5">
+              {{ otherFormText }}
+              <a href="{{ otherFormLink }}">{{ otherFormLinkText }}</a>
+            </p>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="column has-background-info is-relative is-hidden-mobile">
+      <div class="stretch-background is-flex is-justify-content-center is-align-items-center">
+        <img src="https://biocoder.com.tr/images/logo.jpeg" alt="BioCoder Logo" />
+      </div>
+    </div>
+  </div>
+{% endblock %}

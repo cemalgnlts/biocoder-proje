@@ -1,0 +1,17 @@
+<aside class="menu is-background-success is-sticky-top" id="aside">
+  <p class="menu-label">Genel</p>
+  <ul class="menu-list">
+    <li>
+      <a href="/"{%if title === "Dashboard"%} class="is-active"{%endif%}>Ev</a>
+    </li>
+    <li>
+      <a href="/dashboard/products"{%if title === "Ürünler" or title === "Ürün Detay"%} class="is-active"{%endif%}>Ürünler</a>
+    </li>
+  </ul>
+  <p class="menu-label">Hesap</p>
+  <ul class="menu-list">
+    <li>
+      <a href="/exit">Çıkış Yap</a>
+    </li>
+  </ul>
+</aside>

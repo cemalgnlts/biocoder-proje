@@ -1,0 +1,143 @@
+html {
+  height: 100%;
+}
+
+body {
+  min-height: 100%;
+}
+
+.is-height-full {
+  height: 100%;
+}
+
+.is-overflow-auto {
+  overflow: auto;
+}
+
+.min-8-5 {
+  min-height: 8.5rem;
+}
+
+.is-relative {
+  position: relative;
+}
+
+.is-sticky-top {
+  position: sticky;
+  top: 1rem;
+  left: 0;
+}
+
+.menu-list a.is-active {
+  background-color: #48c783;
+  color: #effaf5;
+}
+
+.menu-list a:not(.is-active):hover {
+  background-color: #effaf5;
+  color: #34a873;
+}
+
+#aside {
+  display: none;
+}
+
+.gps-notify {
+  cursor: pointer;
+  display: none;
+}
+
+.gps-notify-no-dialog-text {
+  display: none;
+}
+
+.no-gps-overlay {
+  z-index: 3;
+  background-color: #fff;
+  margin-top: 5px;
+  margin-bottom: -5px;
+}
+
+.no-gps-overlay > svg {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.stretch-background {
+  position: absolute;
+  top: 0%;
+  bottom: 0%;
+  width: 100%;
+  left: 0%;
+  z-index: 100;
+}
+
+.stretch-background {
+  background-color: #0f9151;
+}
+
+.stretch-background img {
+  width: 50%;
+}
+
+.progress-indicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 0.5rem !important;
+  border-radius: 0;
+}
+
+form.step-by-step {
+  display: flex;
+  width: 100%;
+  overflow-x: hidden;
+  scroll-snap-type: x mandatory;
+}
+
+.form-group {
+  margin-bottom: 0.75rem;
+  flex-shrink: 0;
+  flex-basis: 100%;
+  padding: 1rem;
+  scroll-snap-align: center;
+  overflow: hidden;
+}
+
+.product-updated-notification {
+  display: none;
+}
+
+.tab-target {
+  display: none;
+}
+
+.tab-target.active {
+  display: block;
+}
+
+@media screen and (min-width: 1024px) {
+  #aside {
+    display: block;
+  }
+}
+
+@media screen and (min-width: 1300px) {
+  .is-4-hd {
+    font: none;
+    width: 33.33333%;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .form-group {
+    padding: 0;
+  }
+
+  .container.is-fluid {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}

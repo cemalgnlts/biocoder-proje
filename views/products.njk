@@ -1,0 +1,38 @@
+{% extends "base.njk" %}
+
+{% block main %}
+  <div class="container is-fluid">
+    <div class="columns mb-0 is-relative">
+      <div class="column is-aside is-2-desktop">
+        {% include "partials/aside.njk" %}
+      </div>
+      <div class="column mb-4 is-10">
+        <h1 class="is-size-3 is-size-4-mobile mb-4">Ürünler</h1>
+				<div class="content is-overflow-auto">
+					<table class="table has-background-success-light">
+						<thead>
+							<tr>
+								<th>İşletme Numarası</th>
+								<th>İl/İlçe</th>
+								<th>Ürün Tipi</th>
+								<th>Ürün Adedi</th>
+								<th>Eklenme Tarihi</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for product in products %}
+								<tr>
+									<td><a href="/dashboard/products/{{ product.id }}">{{ product.businessNo }}</a></td>
+									<td>{{ product.il }}/{{ product.ilce }}</td>
+									<td>{{ product.productType }}</td>
+									<td>{{ product.productQuantity }}</td>
+									<td>{{ product.date | toLocaleDate }}</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends "authorize.njk" %}
+
+{% from "partials/macros.njk" import field %}
+
+{% block forms %}
+  {{ field("id", "Kullanıcı Adı", "T.C. Kimlik Numaranız", required=true, autofocus=true) }}
+  {{ field("name", "Adınız", "Ad Soyad", required=true) }}
+  {{ field("email", "E-posta Adresiniz", "name@domain.com", "email", required=true) }}
+  {{ field("password", "Şifreniz", "********", "password", required=true) }}
+{% endblock %}
