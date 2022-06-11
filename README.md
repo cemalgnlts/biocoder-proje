@@ -2,6 +2,8 @@
 
 ## Önizleme
 
+https://biocoder-proje.herokuapp.com/dashboard
+
 Proje Heroku üzerinde deploy edilmiştir. Ücretsiz bir servis olduğu için 30 dakika kullanılmadığında bir sonraki sayfaya giriş 1 dakika kadar sürebilir. Veritabanı için https://remotemysql.com sayfasından ücretsiz bir hesap alınmıştır.
 
 ## Veritabanı
